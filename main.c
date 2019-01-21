@@ -5,7 +5,7 @@
 
 void search_in_file(char filename[],char *search_string){
 
-    printf("\n\nSearching in ............... %s",filename);
+    printf("\n..........................................................................");
     int line_count=0,i;
     int occurence_count=0;
     int count=0;
@@ -31,12 +31,13 @@ void search_in_file(char filename[],char *search_string){
         }*/
         word = line;
         while(word = strstr(word,search_string)){
-            printf("\nLine Count:%d in file:%s",line_count,filename);
+            printf("\nLine Count:%d \t\t File:%s",line_count,filename);
             occurence_count++;
             word = word + sizeof(search_string);
         }
     }
-    printf("\nTotal Occurence:%d\n",occurence_count);
+    printf("\nTotal Occurence:%d",occurence_count);
+    printf("\n..........................................................................\n");
     fclose(fp);
 }
 
@@ -52,11 +53,12 @@ void walk_in_dirs(char basePath[],char filename[],char *search_string){
         {
             if (strcmp(dp->d_name, ".") != 0 && strcmp(dp->d_name, "..") != 0)
             {
-                printf("\nCurrent : %s",dp->d_name);
+
 
                 strcpy(path, basePath);
                 strcat(path, "/");
                 strcat(path, dp->d_name);
+                printf("\nCurrent Location: %s",path);
 
                 word = strtok(dp->d_name,".");
                 word = strtok(NULL,".");
@@ -85,7 +87,7 @@ int main(int argc, char *argv[])
         strcat(search_string," ");
         strcat(search_string,argv[i]);
     }
-    printf("\nSTRING TO SEARCH: %s",search_string);
+    printf("\nSTRING TO SEARCH: %s\n",search_string);
     //search_in_file(filename,search_string);
     walk_in_dirs(path,filename,search_string);
     /*for(i=0;i<argc;i++){
