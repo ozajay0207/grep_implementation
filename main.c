@@ -3,13 +3,50 @@
 #include <string.h>
 #include <dirent.h>
 
-void walk_in_dirs(char* basePath,char filename[],char *search_string){
+void search_in_file(char filename[],char *search_string){
+
+    printf("\n\nSearching in ............... %s",filename);
+    int line_count=0,i;
+    int occurence_count=0;
+    int count=0;
+    char line[1000];
+    char *word;
+    char delimeter[] = " \n";
+    FILE *fp=fopen(filename,"r");
+
+    while( fgets ( line, sizeof line, fp ) != NULL ){
+        line_count++;
+        //printf("\n\nLine:%s",line);
+        /*word = strtok(line,delimeter);
+
+        int len = strlen(word);
+
+        while(word != NULL ){
+
+            if(strcmp(word,search_string) == 0){
+                printf("\nLine Count:%d in file:%s",line_count,filename);
+                occurence_count++;
+            }
+            word = strtok(NULL,delimeter);
+        }*/
+        word = line;
+        while(word = strstr(word,search_string)){
+            printf("\nLine Count:%d in file:%s",line_count,filename);
+            occurence_count++;
+            word = word + sizeof(search_string);
+        }
+    }
+    printf("\nTotal Occurence:%d\n",occurence_count);
+    fclose(fp);
+}
+
+
+void walk_in_dirs(char basePath[],char filename[],char *search_string){
     char path[1000];
     char *word;
     struct dirent *dp;
     DIR *dir = opendir(basePath);
 
-    // Unable to open directory stream
     if (dir != 0){
         while ((dp = readdir(dir)) != NULL)
         {
@@ -38,43 +75,17 @@ void walk_in_dirs(char* basePath,char filename[],char *search_string){
     closedir(dir);
 }
 
-void search_in_file(char filename[],char *search_string){
-
-    printf("\n\nSearching in ............... %s",filename);
-    int line_count=0,i;
-    int occurence_count=0;
-    int count=0;
-    char line[1000];
-    char *word;
-    char delimeter[] = " \n";
-    FILE *fp=fopen(filename,"r");
-
-    while( fgets ( line, sizeof line, fp ) != NULL ){
-        line_count++;
-        //printf("\n\nLine:%s",line);
-        word = strtok(line,delimeter);
-
-        int len = strlen(word);
-
-        while(word != NULL ){
-
-            if(strcmp(word,search_string) == 0){
-                printf("\nLine Count:%d in file:%s",line_count,filename);
-                occurence_count++;
-            }
-            word = strtok(NULL," ");
-        }
-
-    }
-    printf("\nTotal Occurence:%d\n",occurence_count);
-    fclose(fp);
-}
 int main(int argc, char *argv[])
 {
     int i;
     char filename[] = "test.txt";
-    char *search_string = argv[1];
-    char *path = "Test/";
+    char *search_string =argv[1];
+    char path[] = "Test/";
+    for(i=2;i<argc;i++){
+        strcat(search_string," ");
+        strcat(search_string,argv[i]);
+    }
+    printf("\nSTRING TO SEARCH: %s",search_string);
     //search_in_file(filename,search_string);
     walk_in_dirs(path,filename,search_string);
     /*for(i=0;i<argc;i++){
