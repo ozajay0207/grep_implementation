@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1548064120 source:d:\iitg\sem 2\system lab\grep_implementation\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<dirent.h>
+
