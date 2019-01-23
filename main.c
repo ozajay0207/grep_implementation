@@ -13,6 +13,9 @@ void search_in_file(char filename[],char *search_string){
     char *word;
     char delimeter[] = " \n";
     FILE *fp=fopen(filename,"r");
+    for( i = 0; search_string[i]; i++){
+	  search_string[i] = tolower(search_string[i]);
+    }
 
     while( fgets ( line, sizeof line, fp ) != NULL ){
         line_count++;
@@ -30,6 +33,10 @@ void search_in_file(char filename[],char *search_string){
             word = strtok(NULL,delimeter);
         }*/
         word = line;
+        for( i = 0; word[i]; i++){
+            word[i] = tolower(word[i]);
+        }
+
         while(word = strstr(word,search_string)){
             printf("\nLine Count:%d \t\t File:%s",line_count,filename);
             occurence_count++;
